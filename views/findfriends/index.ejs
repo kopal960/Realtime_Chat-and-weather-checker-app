@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Friends</title>
+	</head>
+	<body>
+        <h1>All Friends</h1>
+        <div>
+            <a href="/findFriends/new">Add a new Friend</a>
+        </div>
+		<ul>
+			<% for (let friend of friends){ %>
+			<li><a href="/findfriends/<%= friend._id %>"><%= friend.name %></a></li>
+			<% } %>
+        </ul>
+        
+	</body>
+</html>
