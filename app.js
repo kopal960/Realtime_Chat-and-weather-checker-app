@@ -45,9 +45,9 @@ app.get('/findfriends/:id',async(req,res)=>{
     res.render('findfriends/show',{friend});
 });
 
+var PORT = process.env.PORT || 3000
 
 
-
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
     console.log('Server Started');
 });
