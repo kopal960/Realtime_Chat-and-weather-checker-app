@@ -1,0 +1,107 @@
+.message-box{
+    display:flex;
+    flex-direction :column; 
+    width : 75%;
+    height :100%;
+    overflow: auto scroll ;
+    position:relative;
+    background-color : rgba(212, 101, 101, 0.04);
+}
+p{
+    margin:0;
+}
+.messages{
+    margin: 45px 0 40px 0;
+    display:flex;
+    flex-direction :column; 
+    width : 100%;
+    height :90%;
+    overflow: auto scroll ;
+    position:relative;
+    background-color : rgba(212, 101, 101, 0.04);
+}
+.sidebar{
+    width:25%;
+}
+.bottom{
+    bottom: 0;
+    position: absolute;
+}
+.messageform{
+    width : 100%;
+}
+.message{
+    width: 83%;
+    margin:0;
+    height :35px;
+    font-size: small;
+}
+.send{
+    width:15%;
+}
+/* The emerging W3C standard
+   that is currently Firefox-only */
+*{
+    scrollbar-width: thin;
+    scrollbar-color: blue ;
+}
+  
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+   background: rgba(0, 0, 0 , 0.04);
+}
+*::-webkit-scrollbar-thumb {
+    background-color: blue;
+    border-radius: 20px;
+}
+.right ,.left{
+    margin :2px;
+}
+.right{
+    align-self: flex-end;
+    text-align: right;
+}
+.left{
+    align-self :flex-start;
+    text-align: left;
+}
+.right > div , .left >div{
+    background-color: rgb(24, 69, 190);
+    color : white;
+    border-radius: 15px ;
+    padding : 3px 10px;
+}
+.main-container{
+    display : flex;
+    height : 680px;
+;}
+.users{
+    background-color : lavender;
+    padding :0;
+    height : 93%;
+}
+.people {
+    background :none ;
+    border-bottom : black solid 1px;
+    padding : 2% ;
+    color  :black;
+}
+.people:hover{
+    text-decoration: none;
+    background-color: rgb(220, 202, 231);
+}
+a:hover{
+    text-decoration: none;
+    color :initial;
+}
+.chatname{
+    background : linear-gradient(to bottom ,  rgb(124, 24, 190), rgb(6, 45, 153));
+    color : white;
+    padding : 10px 0 10px 10px;
+    top:0;
+    position :absolute;
+    width :100%;
+}

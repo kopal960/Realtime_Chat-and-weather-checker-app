@@ -1,5 +1,4 @@
-const mongoose=require('mongoose');
-const Schema=mongoose.Schema;
+const {Schema , model } =require('mongoose');
 
 const FriendsSchema=new Schema({
     name : String,
@@ -7,8 +6,8 @@ const FriendsSchema=new Schema({
     emailId :String,
     password : String,
     description : String,
-    location : String
+    location : String,
+    online :  { String , default  : '' },
 });
 
-module.exports=mongoose.model('Friends',FriendsSchema);
-
+module.exports= model('Friends',FriendsSchema) ;
