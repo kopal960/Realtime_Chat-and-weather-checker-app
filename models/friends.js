@@ -5,7 +5,6 @@ const FriendsSchema=new Schema({
     name : String,
     age : Number ,
     emailId :String,
-    password : String,
     description : String,
     location : String
 });
