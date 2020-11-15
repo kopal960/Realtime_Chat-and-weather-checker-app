@@ -44,7 +44,7 @@ app.use(cookieSession({
 })) 
 app.use(passport.initialize());
 app.use(passport.session());
-<<<<<<< HEAD
+/* <<<<<<< HEAD
 passport.use(new LocalStrategy(User.authenticate()));
 // passport.use(new GoogleStrategy({
 //     consumerKey: GOOGLE_CONSUMER_KEY,
@@ -60,10 +60,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-=======
+passport.deserializeUser(User.deserializeUser()); */
+//=======
 passport.use(new LocalStrategy(Friends.authenticate()));
->>>>>>> 41618845b6b5c5fc7b9f7db8d6b2262d0120e376
+/* >>>>>>> 41618845b6b5c5fc7b9f7db8d6b2262d0120e376 */
 
 passport.serializeUser((user , done)=>{
     done(null ,user.id);
@@ -222,11 +222,11 @@ io.on('connection', function(socket){
     } );
 
     socket.on("private-message" , (chat_id_ref , msg ,sender) => {
-        console.log(chat_id_ref);
         Friends.findById(chat_id_ref ,(err , friend)=>{
                 io.to(socket.id).emit("private-message" , sender , msg , chat_id_ref)
                 if(friend.online!= '')
                 {
+                    console.log("friend" , friend.online ,typeof(friend.online));
                     console.log("sent");
                     io.to(friend.online).emit("private-message" , sender , msg , sender._id);
                 }   
@@ -237,14 +237,15 @@ io.on('connection', function(socket){
     } );
     socket.on("typing" , data => {
         if(data.chat_id == 0)
-            socket.broadcast.emit("typing" , {curr_user: data.sender.username , chat_id :0 });
+            socket.broadcast.emit("typing" , {sender: data.sender , chat_id :0 });
         else
         {
             Friends.findById(data.chat_id , function (err , friend){
                 if(err) console.log(error);
-                else 
+                else if(friend.online!='')
                 {
-                    io.to(friend.online).emit("typing" , {user  : data.username , chat_id})
+                    console.log("sent");
+                    io.to(friend.online).emit("typing" , {sender  : data.sender , chat_id:data.sender._id})
                 }
             })
         }

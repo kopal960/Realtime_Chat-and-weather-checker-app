@@ -11,6 +11,7 @@ receiver = JSON.parse(receiver);
 var chat_id = $(".chatname").attr("data-id");
 
 socket.once("connect" , function(){
+    console.log("connected");
     socket.emit("new", receiver)
 })
 
@@ -31,24 +32,25 @@ socket.on("chat-message" , (data) => {
     if(chat_id == 0)
         newMessage(data);
     else
-        notify(0 , data.msg);
+        notify({'_id':0,'username':data.sender.username }, data.msg);
 })
 
 socket.on("private-message" , (sender , msg , id_ref) => {
-    console.log("new-me" , id_ref, chat_id);
     if(chat_id == id_ref)
         newMessage({sender , msg});
     else
-        notify(sender._id , msg);
+        notify(sender , msg);
 })
 
-const notify = (id, msg) => {
-    var new_friend = $("#" + id);
+const notify = (sender, msg) => {
+    var new_friend = $("#" + sender._id);
     var messageDisplay = new_friend.children("div");
-    console.log(messageDisplay.text());
     if( messageDisplay.text() == "" )
     {
-        var div = $("<div></div>").text(msg);
+        if(sender._id==0)
+            var div = $("<div></div>").text(`${sender.username}: ${msg}`);
+        else
+            var div = $("<div></div>").text(msg);
         new_friend.append(div);
     }    
     else
@@ -58,11 +60,13 @@ const notify = (id, msg) => {
 }
 
 socket.on("new-user" , (newuser)=> {
-    console.log(user ,newuser.id, newuser.username );
     var user = document.getElementById(newuser.id);
     if(user != undefined)
     {
-        user.innerHTML =  "<p><small>online</small></p>" + user.innerHTML;
+        if(user.firstElementChild==null || user.firstElementChild.tagName!="P")
+        {
+            user.innerHTML =  "<p><small>online</small></p>" + user.innerHTML;
+        }   
     }
     else
     {
@@ -79,11 +83,23 @@ socket.on("user-disconnected" , (user) => {
     var User = document.getElementById(user)
     if(document.getElementById(user))
     {
-        console.log(User.children[0]);
         User.children[0].remove();
     }
 }) 
 
+socket.on("typing" , data=>{
+    if(data.chat_id==chat_id )
+    {
+        if(chat_id==0)
+        $(".status").text(` ${data.sender.username} :typing... `)
+        else
+        $(".status").text(` typing...`)
+        setTimeout(function(){
+            console.log("finish");
+            $('.status').text("")
+        } ,5000);
+    }    
+})
 send_btn.click(function(event){
     console.log("click");
     console.log(receiver);
@@ -111,6 +127,12 @@ searchuser.addEventListener("change" ,function(event){
     }
 })
 
+
 window.addEventListener( "load" ,
-   function(){ message_box.scrollTop = message_box.scrollHeight+100;}
+   function(){ 
+       message_box.scrollTop = message_box.scrollHeight+100;}
 )
+
+message.keypress(event => {
+    socket.emit("typing" , { 'sender' :receiver , chat_id })
+})

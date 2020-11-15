@@ -15,13 +15,13 @@ router.get('/:chat_id', (req,res)=>{
             data = {'id':req.user._id , 'chat_id' : req.params.chat_id};
             Friends.findOne( {"_id" : data.id}, '_id username'   ,function(err , result){
             if(err)
-            {res.status(500).send("error in fnding u")}
+            {res.status(500).send("")}
             else if(result==null)
             {res.status(403).send("access firbidden")}
             else
             {
                 console.log(result);
-                Friends.find({} , '_id username ' , function(err, users){
+                Friends.find({} , '_id username online' , function(err, users){
                 if(err) 
                     res.status(500).send(err);
                 else

@@ -10,27 +10,24 @@
 </head>
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">YelpCamp</a>
+        <a class="navbar-brand" href="/">XYZ</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Find Friends <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-             <a class="nav-link" id ="currentUser" href="#"><%=receiver.username %></a>
+             <a class="nav-link" id ="currentUser" href="/profile"><%=receiver.username %></a>
             </li>
           </ul>
             <div class=" navbar-nav nav-item">
-                <a class="nav-link " href="#">Logout</a>
+                <a class="nav-link " href="/logout">Logout</a>
             </div>
         </div>
     </nav>
     <div class="main-container">
-        <div class="sidebar">Users 
+        <div class="sidebar">
             <input type="text" placeholder="search users" id="search">
             <div class="users" >
                     <a href="/chat/0"  >
@@ -40,8 +37,8 @@
                         <% if (user._id.toString() != receiver._id.toString()) { %>    
                             <a href="<%="/chat/"+ user._id %>" >
                                 <div id= "<%=user._id %>" class="people" >
-                                    <% if (user.online != "") {%>
-                                        <p><small><%=user.online%></small></p>
+                                    <% if (user.online!='') {%>
+                                        <p><small>online</small></p>
                                     <% } %>
                                     <%= user.username.trim() %></div> 
                             </a>
@@ -49,7 +46,7 @@
             </div>
         </div>
         <div class="message-box">
-            <div class="chatname" data-id="<%=chat_id %>"> <%= chatname %></div>
+            <div class="chatname" data-id="<%=chat_id %>"> <%= chatname %> <small class="status"></small></div>
             <div class="messages">
                 <% for (msg of msgs) {%>
                     <% if (receiver._id.toString()==msg.sender.toString()) {%>

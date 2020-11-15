@@ -1,3 +1,6 @@
+body{
+    height:95vh;
+}
 .message-box{
     display:flex;
     flex-direction :column; 
@@ -9,6 +12,9 @@
 }
 p{
     margin:0;
+}
+#search{
+    width : 100%;
 }
 .messages{
     margin: 45px 0 40px 0;
@@ -22,6 +28,7 @@ p{
 }
 .sidebar{
     width:25%;
+    height : 100%;
 }
 .bottom{
     bottom: 0;
@@ -54,8 +61,9 @@ p{
    background: rgba(0, 0, 0 , 0.04);
 }
 *::-webkit-scrollbar-thumb {
-    background-color: blue;
+    background-color: gray;
     border-radius: 20px;
+    margin:10%;
 }
 .right ,.left{
     margin :2px;
@@ -76,8 +84,8 @@ p{
 }
 .main-container{
     display : flex;
-    height : 680px;
-;}
+    height : 100%;
+}
 .users{
     background-color : lavender;
     padding :0;
@@ -104,4 +112,8 @@ a:hover{
     top:0;
     position :absolute;
     width :100%;
+}
+.status{
+    font-style: italic;
+    font-weight: lighter;
 }
