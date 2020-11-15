@@ -44,7 +44,7 @@ app.use(cookieSession({
 })) 
 app.use(passport.initialize());
 app.use(passport.session());
-<<<<<<< HEAD
+
 passport.use(new LocalStrategy(User.authenticate()));
 // passport.use(new GoogleStrategy({
 //     consumerKey: GOOGLE_CONSUMER_KEY,
@@ -61,9 +61,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-=======
+
 passport.use(new LocalStrategy(Friends.authenticate()));
->>>>>>> 41618845b6b5c5fc7b9f7db8d6b2262d0120e376
 
 passport.serializeUser((user , done)=>{
     done(null ,user.id);
