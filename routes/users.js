@@ -35,6 +35,21 @@ router.get('/login',(req,res)=>{
 router.post('login',passport.authenticate('local',{failureFlash:true, failureRedirect:'/login'}),(req,res)=>{
     res.send('Welcome');
 });
+const isLoggedIn=(req,res)=>{
+    console.log(req.user);
+    if(!req.isAuthenticated()){
+        console.log('Welcome');
+    }
+}
+router.get('/logout', (req,res)=>{
+    req.logOut();
+//    req.flash('success',"GoodBye!");
+    res.redirect('/');
+});
+
+router.get('/profile',(req,res)=>{
+    res.render('users/profile');
+})
 
 
 

@@ -2,12 +2,15 @@ const express=require("express");
 const path=require('path');
 const mongoose=require('mongoose');
 const ejsMate=require('ejs-mate');
+const session=require('express-session');
 const flash=require('connect-flash');
 const Friends=require('./models/friends');
 const catchAsync=require('./utils/catchAsync');
 const ExpressError=require('./utils/ExpressError');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
+const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+
 const User=require('./models/user');
 const findfriends=require('./routes/findfriends')
 
@@ -16,6 +19,7 @@ const userRoutes = require('./routes/users');
 const Messages = require('./models/messages');
 const morgan=require('morgan');
 const { query } = require("express");
+const { Cookie } = require("express-session");
 
 
 mongoose.connect('mongodb://localhost:27017/online-chat', {
@@ -36,6 +40,17 @@ const app=express();
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
+// passport.use(new GoogleStrategy({
+//     consumerKey: GOOGLE_CONSUMER_KEY,
+//     consumerSecret: GOOGLE_CONSUMER_SECRET,
+//     callbackURL: "http://www.example.com/auth/google/callback"
+//   },
+//   function(token, tokenSecret, profile, done) {
+//       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//         return done(err, user);
+//       });
+//   }
+// ));
 
 
 passport.serializeUser(User.serializeUser());
@@ -50,15 +65,22 @@ app.use('*/css' ,express.static('public/css'));
 app.use('*/js' ,express.static('public/js')) 
 
 app.use(express.urlencoded({extended:true}));
+//app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname,'public')));
 
+const sessionConfig={
+    secret: 'Better',
+    resave:false,
+    saveUninitialized: true
+}
+app.use(session(sessionConfig));
 
-app.use(express.static('public'));
-// app.use(flash());
-// app.use((req,res,next)=>{
-//     res.locals.error=req.flash('error');
-//     res.locals.success=req.flash('success');
-//     next();
-// });
+app.use(flash());
+app.use((req,res,next)=>{
+    res.locals.error=req.flash('error');
+    res.locals.success=req.flash('success');
+    next();
+});
 
 
 var http = require('http').createServer(app);
@@ -90,6 +112,7 @@ app.get('/findfriends/:id',async(req,res)=>{
     const friend=await Friends.findById(req.params.id);
     res.render('findfriends/show',{friend});
 });
+
 
 
 app.get('/chat/:id/:chat_id', (req, res) => {
@@ -151,10 +174,10 @@ app.get('/chat/:id/:chat_id', (req, res) => {
 
 app.use('/',userRoutes);
 
-app.get('/',(req,res)=>{
-    res.render('landing');
-});
+
+
 app.use('/findfriends',findfriends);
+
 
 io.on('connection', function(socket){
     socket.on("new" , (user)=>{
