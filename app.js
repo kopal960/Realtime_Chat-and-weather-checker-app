@@ -4,18 +4,20 @@ const mongoose=require('mongoose');
 const ejsMate=require('ejs-mate');
 const session=require('express-session');
 const flash=require('connect-flash');
-const Friends=require('./models/friends');
+const Friends=require('./models/user');
 const catchAsync=require('./utils/catchAsync');
 const ExpressError=require('./utils/ExpressError');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
+
 const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
 
 const User=require('./models/user');
 const findfriends=require('./routes/findfriends')
 
+const chatRoute = require("./routes/chats")
+const cookieSession = require('cookie-session');
 const userRoutes = require('./routes/users');
-
 const Messages = require('./models/messages');
 const morgan=require('morgan');
 const { query } = require("express");
@@ -36,9 +38,13 @@ db.once("open",()=>{
 });
 
 const app=express();
-
+app.use(cookieSession({
+    maxAge : 24*60*60*1000,
+    keys: ['fhuihuhih'],
+})) 
 app.use(passport.initialize());
 app.use(passport.session());
+<<<<<<< HEAD
 passport.use(new LocalStrategy(User.authenticate()));
 // passport.use(new GoogleStrategy({
 //     consumerKey: GOOGLE_CONSUMER_KEY,
@@ -55,7 +61,18 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+=======
+passport.use(new LocalStrategy(Friends.authenticate()));
+>>>>>>> 41618845b6b5c5fc7b9f7db8d6b2262d0120e376
 
+passport.serializeUser((user , done)=>{
+    done(null ,user.id);
+});
+passport.deserializeUser((id ,done)=>{
+    Friends.findById(id).then(user => {
+        done(null ,user);
+    })
+});
 
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
@@ -94,6 +111,7 @@ const io = require("socket.io")(http);
 app.get('/',(req,res)=>{
     res.render('landing');
 });
+
 
 app.get('/findfriends',async(req,res)=>{
     const friends=await Friends.find({});
@@ -171,19 +189,18 @@ app.get('/chat/:id/:chat_id', (req, res) => {
     })
 })
 
-
 app.use('/',userRoutes);
-
-
-
-app.use('/findfriends',findfriends);
+app.use('/chat' , chatRoute)
+app.get('/',(req,res)=>{
+    res.render('landing');
+});
 
 
 io.on('connection', function(socket){
     socket.on("new" , (user)=>{
             Friends.findByIdAndUpdate(user._id , {online : socket.id} ,{new :true} ,(err,result) => {
-                console.log("online" ,result.online ,result._id ,result.name )
-                if(!err) socket.broadcast.emit("new-user" ,  {id:result._id,name:result.name} )
+                console.log("online" ,result.online ,result._id ,result.username )
+                if(!err) socket.broadcast.emit("new-user" ,  {id:result._id,name:result.username} )
                 else console.log("possible not");
             });
         }
@@ -218,4 +235,18 @@ io.on('connection', function(socket){
             message.save().then(console.log("saved")).catch(err => {console.log(err);}) 
        })
     } );
-})//io.to(user).emit("private-message" , {'id': usersonline[socket.id] , 'msg':msg , c_id : chat_id} )
+    socket.on("typing" , data => {
+        if(data.chat_id == 0)
+            socket.broadcast.emit("typing" , {curr_user: data.sender.username , chat_id :0 });
+        else
+        {
+            Friends.findById(data.chat_id , function (err , friend){
+                if(err) console.log(error);
+                else 
+                {
+                    io.to(friend.online).emit("typing" , {user  : data.username , chat_id})
+                }
+            })
+        }
+    })
+})

@@ -17,8 +17,8 @@ socket.once("connect" , function(){
 const newMessage = (data) => {
     console.log(data);
     var div = document.createElement("div");
-    div.innerHTML = `<small> ${data.sender.name} </small><div> ${data.msg} </div> `
-    console.log(data.id , receiver.name );
+    div.innerHTML = `<small> ${data.sender.username} </small><div> ${data.msg} </div> `
+    console.log(data.id , receiver.username );
     if(data.sender._id.toString().trim() == receiver._id.toString())
         div.setAttribute("class" , "right");
     else
@@ -58,7 +58,7 @@ const notify = (id, msg) => {
 }
 
 socket.on("new-user" , (newuser)=> {
-    console.log(user ,newuser.id, newuser.name );
+    console.log(user ,newuser.id, newuser.username );
     var user = document.getElementById(newuser.id);
     if(user != undefined)
     {
@@ -70,7 +70,7 @@ socket.on("new-user" , (newuser)=> {
         div.setAttribute("href" , `/chat/${receiver._id}/${newuser.id}`);
         div.innerHTML = `<div id= "${newuser.id}" class="people" >
                             <p><small>online</small></p>
-                         ${newuser.name.trim()} </div>`;
+                         ${newuser.username.trim()} </div>`;
          
     }
 }) 
