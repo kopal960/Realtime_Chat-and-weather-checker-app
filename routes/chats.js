@@ -6,7 +6,7 @@ const Messages = require('../models/messages')
 router.get('/:chat_id', (req,res)=>{
     console.log(req.isAuthenticated());
         if(!req.isAuthenticated()){
-            req.flash('error came','Please Login');
+            req.flash('error','Please Login');
             return res.redirect('/login');
         }
         else

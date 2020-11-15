@@ -27,9 +27,8 @@ if('geolocation' in navigator){
 
 // SET USER'S POSITION
 function setPosition(position){
-    let latitude = position.coords.latitude;
-    let longitude = position.coords.longitude;
-    
+    let latitude = position.coords.longitude;
+    let longitude = position.coords.latitude;
     getWeather(latitude, longitude);
 }
 
@@ -62,7 +61,7 @@ function getWeather(latitude, longitude){
 
 // DISPLAY WEATHER TO UI
 function displayWeather(){
-    iconElement.innerHTML = `<img src="./images/icons/${weather.iconId}.png"/">`;
+    iconElement.innerHTML = `<img src="./images/${weather.iconId}.png"/">`;
     tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
     descElement.innerHTML = weather.description;
     locationElement.innerHTML = `${weather.city}, ${weather.country}`;
