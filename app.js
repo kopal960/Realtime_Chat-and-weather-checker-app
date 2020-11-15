@@ -3,16 +3,15 @@ const path=require('path');
 const mongoose=require('mongoose');
 const ejsMate=require('ejs-mate');
 const flash=require('connect-flash');
-const Friends=require('./models/friends');
+const Friends=require('./models/user');
 const catchAsync=require('./utils/catchAsync');
 const ExpressError=require('./utils/ExpressError');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
-const User=require('./models/user');
-const findfriends=require('./routes/findfriends')
-
+const findfriends=require('./routes/findfriends');
+const chatRoute = require("./routes/chats")
+const cookieSession = require('cookie-session');
 const userRoutes = require('./routes/users');
-
 const Messages = require('./models/messages');
 const morgan=require('morgan');
 const { query } = require("express");
@@ -32,15 +31,22 @@ db.once("open",()=>{
 });
 
 const app=express();
-
+app.use(cookieSession({
+    maxAge : 24*60*60*1000,
+    keys: ['fhuihuhih'],
+})) 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(Friends.authenticate()));
 
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
+passport.serializeUser((user , done)=>{
+    done(null ,user.id);
+});
+passport.deserializeUser((id ,done)=>{
+    Friends.findById(id).then(user => {
+        done(null ,user);
+    })
+});
 
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
@@ -73,84 +79,8 @@ app.get('/',(req,res)=>{
     res.render('landing');
 });
 
-app.get('/findfriends',async(req,res)=>{
-    const friends=await Friends.find({});
-    res.render('findfriends/index',{friends});
-});
-app.get('/findfriends/new',(req,res)=>{
-    res.render('findfriends/new')
-})
-app.post('/findFriends',async(req,res)=>{
-    const friend=new Friends(req.body.friends);
-    await friend.save();
-    res.redirect(`/findfriends/${friend._id}`);
-})
-
-app.get('/findfriends/:id',async(req,res)=>{
-    const friend=await Friends.findById(req.params.id);
-    res.render('findfriends/show',{friend});
-});
-
-
-app.get('/chat/:id/:chat_id', (req, res) => {
-    data = req.params;
-        Friends.findOneAndUpdate( {"_id" : data.id},   {new :true} ,function(err , result){
-        if(err)
-        {res.status(500).send("error in fnding u")}
-        else if(result==null)
-        {res.status(403).send("error")}
-        else
-        {
-            Friends.find({} , '_id name online' , function(err, users){
-                if(err) 
-                    res.status(500).send(err);
-                else
-                {
-                    var chatname;
-                    if(data.chat_id==0)
-                    {
-                        chatname = "Community";
-                        var chat_id =0
-                    }    
-                    else
-                    {
-                        Friends.findById(data.chat_id, function(err , friend){
-                            if(err) {
-                                res.status(404).send("not");
-                            } 
-                            else  chatname = friend.name;
-                        });
-                        var chat_id = (data.id > data.chat_id? data.chat_id+data.id: data.id+data.chat_id);
-                    }    
-                    Messages.find( {chat_id } ).lean().exec(
-                        function (err ,msgs) {
-                            if(err)
-                                { console.log(err , "from here"); res.status(403).send(err);}
-                            else
-                            {
-                                async function addinfo (){ 
-                                    msgs = await Promise.all( msgs.map(async (msg) =>  
-                                    {
-                                      await Friends.findById(msg.sender).then(friend =>{ msg["sendername"] =friend.name ; })
-                                     .catch(err => console.log(err))
-                                      return msg
-                                    })
-                                )}
-                                addinfo().then(()=>{
-                                    res.render('chats.ejs', {users , receiver: result , msgs ,chatname , chat_id:data.chat_id} );
-                                })
-                            }
-                        }
-                    ) 
-                }     
-            })
-        }
-    })
-})
-
-
 app.use('/',userRoutes);
-
+app.use('/chat' , chatRoute)
 app.get('/',(req,res)=>{
     res.render('landing');
 });
@@ -159,8 +89,8 @@ app.use('/findfriends',findfriends);
 io.on('connection', function(socket){
     socket.on("new" , (user)=>{
             Friends.findByIdAndUpdate(user._id , {online : socket.id} ,{new :true} ,(err,result) => {
-                console.log("online" ,result.online ,result._id ,result.name )
-                if(!err) socket.broadcast.emit("new-user" ,  {id:result._id,name:result.name} )
+                console.log("online" ,result.online ,result._id ,result.username )
+                if(!err) socket.broadcast.emit("new-user" ,  {id:result._id,name:result.username} )
                 else console.log("possible not");
             });
         }
@@ -195,4 +125,18 @@ io.on('connection', function(socket){
             message.save().then(console.log("saved")).catch(err => {console.log(err);}) 
        })
     } );
-})//io.to(user).emit("private-message" , {'id': usersonline[socket.id] , 'msg':msg , c_id : chat_id} )
+    socket.on("typing" , data => {
+        if(data.chat_id == 0)
+            socket.broadcast.emit("typing" , {curr_user: data.sender.username , chat_id :0 });
+        else
+        {
+            Friends.findById(data.chat_id , function (err , friend){
+                if(err) console.log(error);
+                else 
+                {
+                    io.to(friend.online).emit("typing" , {user  : data.username , chat_id})
+                }
+            })
+        }
+    })
+})

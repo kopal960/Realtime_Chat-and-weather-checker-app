@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-const Friends=require('../models/friends');
+const Friends=require('../models/user');
 const Messages = require('../models/messages');
 
 mongoose.connect('mongodb://localhost:27017/online-chat', {
@@ -17,8 +17,6 @@ db.once("open",()=>{
 const seedDB=async()=>{
     await Friends.deleteMany({});
     await Messages.deleteMany({});
-    const c=new Friends({name:'Rhythm' , age:19  , location:'India' });
-    await c.save();
 }
 seedDB().then(()=>{
     mongoose.connection.close();

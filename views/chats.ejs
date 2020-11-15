@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">AppName/Logo</a>
+        <a class="navbar-brand" href="/">YelpCamp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,7 +21,7 @@
               <a class="nav-link" href="#">Find Friends <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-             <a class="nav-link" id ="currentUser" href="#"><%=receiver.name %></a>
+             <a class="nav-link" id ="currentUser" href="#"><%=receiver.username %></a>
             </li>
           </ul>
             <div class=" navbar-nav nav-item">
@@ -33,17 +33,17 @@
         <div class="sidebar">Users 
             <input type="text" placeholder="search users" id="search">
             <div class="users" >
-                    <a href="<%= "/chat/"+ receiver._id+"/0" %>" >
+                    <a href="/chat/0"  >
                         <div id= "0" class="people" >Community</div> 
                     </a>
                     <% for (user of users) { %>
                         <% if (user._id.toString() != receiver._id.toString()) { %>    
-                            <a href="<%="/chat/"+ receiver._id +"/"+ user._id %>" >
+                            <a href="<%="/chat/"+ user._id %>" >
                                 <div id= "<%=user._id %>" class="people" >
                                     <% if (user.online != "") {%>
-                                        <p><small>online</small></p>
+                                        <p><small><%=user.online%></small></p>
                                     <% } %>
-                                    <%= user.name.trim() %></div> 
+                                    <%= user.username.trim() %></div> 
                             </a>
                     <% } } %>
             </div>

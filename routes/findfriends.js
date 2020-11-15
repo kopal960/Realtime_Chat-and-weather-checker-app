@@ -1,9 +1,10 @@
 const express=require('express');
 const router=express.Router();
+const Friends = require('../models/user');
 
 router.get('/',async(req,res)=>{
     const friends=await Friends.find({});
-    res.render('/index',{friends});
+    res.render('findfriends/index',{friends});
 });
 router.get('/new',(req,res)=>{
     res.render('findfriends/new')
