@@ -1,23 +1,40 @@
-<% layout('layouts/boilerplate')%>
-<script type="text/javascript" src="../../public/js/app.js"></script>
-<link rel="stylesheet" href="../../public/css/style.css" />
-<div class="container" id="weather-display">
-	<div class="app-title">
-		<p>Weather</p>
-	</div>
-	<div class="notification"></div>
-	<div class="weather-container">
-		<div class="weather-icon">
-			<img src="icons/unknown.png" alt="" />
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Profile</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+			integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="../../public/css/style.css" />
+	</head>
+	<body>
+		<%- include('../partials/navbar')%>
+		<div class="contain">
+			<div class="app-title">
+				<p>Weather</p>
+			</div>
+			<div class="notification"></div>
+			<div class="weather-container">
+				<div class="weather-icon">
+					<img src="../../public/images/icons/unknown.png" alt="" />
+				</div>
+				<div class="temperature-value">
+					<p>- °<span>C</span></p>
+				</div>
+				<div class="temperature-description">
+					<p>-</p>
+				</div>
+				<div class="location">
+					<p>-</p>
+				</div>
+			</div>
 		</div>
-		<div class="temperature-value">
-			<p>- °<span>C</span></p>
-		</div>
-		<div class="temperature-description">
-			<p>-</p>
-		</div>
-		<div class="location">
-			<p>-</p>
-		</div>
-	</div>
-</div>
+		<%- include('../partials/footer')%>
+
+		<script src="../../public/js/app.js"></script>
+	</body>
+</html>

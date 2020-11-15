@@ -44,8 +44,7 @@ app.use(cookieSession({
 })) 
 app.use(passport.initialize());
 app.use(passport.session());
-/* <<<<<<< HEAD
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(Friends.authenticate()));
 // passport.use(new GoogleStrategy({
 //     consumerKey: GOOGLE_CONSUMER_KEY,
 //     consumerSecret: GOOGLE_CONSUMER_SECRET,
@@ -59,20 +58,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 // ));
 
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser()); */
+passport.serializeUser(Friends.serializeUser());
+passport.deserializeUser(Friends.deserializeUser()); 
 //=======
 passport.use(new LocalStrategy(Friends.authenticate()));
 /* >>>>>>> 41618845b6b5c5fc7b9f7db8d6b2262d0120e376 */
-
-passport.serializeUser((user , done)=>{
-    done(null ,user.id);
-});
-passport.deserializeUser((id ,done)=>{
-    Friends.findById(id).then(user => {
-        done(null ,user);
-    })
-});
 
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
@@ -94,6 +84,7 @@ app.use(session(sessionConfig));
 
 app.use(flash());
 app.use((req,res,next)=>{
+    res.locals.currentUser=req.user;
     res.locals.error=req.flash('error');
     res.locals.success=req.flash('success');
     next();

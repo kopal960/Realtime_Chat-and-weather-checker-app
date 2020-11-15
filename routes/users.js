@@ -31,7 +31,7 @@ router.get('/login',(req,res)=>{
 
 });
 router.post('/login',passport.authenticate('local',{failureFlash:true, failureRedirect:'/login'}),(req,res)=>{
-        res.redirect('/')
+        res.redirect('/chat/0')
 });
 const isLoggedIn=(req,res)=>{
     console.log(req.user);
@@ -40,15 +40,13 @@ const isLoggedIn=(req,res)=>{
     }
 }
 router.get('/logout', (req,res)=>{
+    req.flash('success','GoodBye!');
     req.logOut();
-//    req.flash('success',"GoodBye!");
     res.redirect('/');
 });
 
 router.get('/profile',(req,res)=>{
     res.render('users/profile');
-})
-
-
+});
 
 module.exports=router;
