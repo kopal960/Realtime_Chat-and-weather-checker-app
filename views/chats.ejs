@@ -30,7 +30,13 @@
             </div>
         </div>
         <div class="message-box">
-            <div class="chatname" data-id="<%=chat_id %>"> <%= chatname %> <small class="status"></small></div>
+            <% if (chat_id==0) {%>
+                <a href="/findfriends">
+            <%} else {%>
+                <a href="<%="/findfriends/"+ chat_id %> %>" >
+            <% } %>       
+                <div class="chatname" data-id="<%=chat_id %>"> <%= chatname %> <small class="status"></small></div>
+            </a>
             <div class="messages">
                 <% for (msg of msgs) {%>
                     <% if (receiver._id.toString()==msg.sender.toString()) {%>

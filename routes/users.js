@@ -31,11 +31,11 @@ router.post('/register',catchAsync(async(req,res,next)=>{
 }));
 
 router.get('/login',(req,res)=>{
-    res.render('users/login');
-
+   
+   if(!req.user) res.render('users/login');
+    else res.redirect('findfriends');
 });
 router.post('/login',passport.authenticate('local',{failureFlash:true, failureRedirect:'/login'}),(req,res)=>{
-
     res.redirect('/chat/0')
 });
 const isLoggedIn=(req,res)=>{

@@ -99,7 +99,7 @@ p{
 }
 .people:hover{
     text-decoration: none;
-    background-color: rgb(220, 202, 231);
+    background-color: rgb(0,0,0,0.1);
 }
 a:hover{
     text-decoration: none;
