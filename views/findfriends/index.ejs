@@ -3,18 +3,21 @@
 <h1>All Friends</h1>
 
 <% for (let friend of friends){ %>
+	<%if (!currentUser || friend._id.toString()!=currentUser._id.toString()) {%>
 <div class="card mt-2" style="width: 18rem">
 	<div class="card-body">
 		<h5 class="card-title"><%= friend.username %></h5>
 		<h6 class="card-subtitle mb-2 text-muted"><%= friend.age %></h6>
-
 		<a href="/findfriends/<%= friend._id %>" class="card-link btn btn-primary"
+			>Show Profile
+		</a>
+		<a href="/chat/<%= friend._id %>" class="card-link btn btn-primary"
 			>Chat
 		</a>
 	</div>
 </div>
 
-<% } %>
+<% }} %>
 
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
