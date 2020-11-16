@@ -4,26 +4,21 @@ const Friends = require('../models/user')
 const Messages = require('../models/messages')
 
 router.get('/:chat_id', (req,res)=>{
-    console.log(req.isAuthenticated());
         if(!req.isAuthenticated()){
             req.flash('error','Please Login');
             return res.redirect('/login');
         }
         else
         {
-            console.log(req.user._id);
             data = {'id':req.user._id , 'chat_id' : req.params.chat_id};
             Friends.findOne( {"_id" : data.id}, '_id username'   ,function(err , result){
             if(err)
-            {res.status(500).send("")}
-            else if(result==null)
-            {res.status(403).send("access firbidden")}
+            {res.status(500).send("internal server error")}
             else
             {
-                console.log(result);
                 Friends.find({} , '_id username online' , function(err, users){
                 if(err) 
-                    res.status(500).send(err);
+                    res.status(500).send("Internal server error");
                 else
                 {
                     var chatname;
@@ -36,7 +31,7 @@ router.get('/:chat_id', (req,res)=>{
                     {
                         Friends.findById(data.chat_id, function(err , friend){
                             if(err) {
-                                res.status(404).send("not");
+                                res.status(404).send("Chat you are looking for is not found");
                             } 
                             else  chatname = friend.username;
                         });
@@ -45,14 +40,14 @@ router.get('/:chat_id', (req,res)=>{
                     Messages.find( {chat_id } ).lean().exec(
                         function (err ,msgs) {
                             if(err)
-                                { console.log(err , "from here"); res.status(403).send(err);}
+                                { res.status(500).send("Internal Server error");}
                             else
                             {
                                 async function addinfo (){ 
                                     msgs = await Promise.all( msgs.map(async (msg) =>  
                                     {
                                       await Friends.findById(msg.sender).then(friend =>{ msg["sendername"] =friend.username ; })
-                                     .catch(err => console.log(err))
+                                     .catch(err => {res.status(500).send("Internal Server error")})
                                       return msg
                                     })
                                 )}
@@ -67,16 +62,7 @@ router.get('/:chat_id', (req,res)=>{
         }
     })
        }
-    }
-    /* if(req.session.passport.user!=undefined)
-    {
-        
-    }
-    else
-    {
-        console.log(req.session.passport.user);
-        res.render('users/login');
-    }  } */   
+    }  
  )
 
 module.exports = router;

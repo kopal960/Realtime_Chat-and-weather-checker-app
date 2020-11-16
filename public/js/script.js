@@ -11,15 +11,12 @@ receiver = JSON.parse(receiver);
 var chat_id = $(".chatname").attr("data-id");
 
 socket.once("connect" , function(){
-    console.log("connected");
     socket.emit("new", receiver)
 })
 
 const newMessage = (data) => {
-    console.log(data);
     var div = document.createElement("div");
     div.innerHTML = `<small> ${data.sender.username} </small><div> ${data.msg} </div> `
-    console.log(data.id , receiver.username );
     if(data.sender._id.toString().trim() == receiver._id.toString())
         div.setAttribute("class" , "right");
     else
@@ -95,27 +92,21 @@ socket.on("typing" , data=>{
         else
         $(".status").text(` typing...`)
         setTimeout(function(){
-            console.log("finish");
             $('.status').text("")
         } ,5000);
     }    
 })
 send_btn.click(function(event){
-    console.log("click");
-    console.log(receiver);
     if(chat_id == 0)
         socket.emit("chat-message" , {msg :message.val() , sender : receiver} );
     else
     {
-        console.log(chat_id);
         socket.emit("private-message" , chat_id ,message.val() , receiver)
     }    
     message.val("");
-    console.log("worked");
 } )
 
 searchuser.addEventListener("change" ,function(event){
-    console.log(searchuser.value);
     var value = searchuser.value;
     for(user of usersList)
     {
