@@ -1,40 +1,40 @@
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="../../public/css/style.css" />
-
-<h1><%= friend.username %></h1>
-<h3><%= friend.age %></h3>
-<h3><%= friend.email %></h3>
-<h2 id="locationReg"><%= friend.location %></h2>
-<div class="card contain">
-	<div class="card-body">
-		<h4 class="card-title app-title">Weather</h4>
+<div class="row">
+	<div class="col-12 col-md-6">
+		<h1>Name: <%= friend.username %></h1>
+		<h3>Age : <%= friend.age %></h3>
+		<h3>Email Id : <%= friend.email %></h3>
+		<h2 id="locationReg"><%= friend.location %></h2>
 	</div>
-	<div class="notification"></div>
-	<div class="weather-container">
-		<div class="weather-icon">
-			<img
-				src="../../public/images/icons/unknown.png"
-				alt=""
-				class="card-img-top"
-			/>
+	<div class="card contain col-12 col-md-6">
+		<div class="card-body">
+			<h4 class="card-title app-title">Weather</h4>
 		</div>
-		<div class="temperature-value">
-			<p>- °<span>C</span></p>
+		<div class="notification"></div>
+		<div class="weather-container">
+			<div class="weather-icon">
+				<img src="images/icons/unknown.png" alt="" />
+			</div>
+			<div class="temperature-value">
+				<p>- °<span>C</span></p>
+			</div>
 		</div>
-	</div>
 
-	<ul class="list-group list-group-flush">
-		<li class="list-group-item">
-			<div class="temperature-description">
-				<p>-</p>
-			</div>
-		</li>
-		<li class="list-group-item">
-			<div class="location">
-				<p>-</p>
-			</div>
-		</li>
-	</ul>
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<div class="temperature-description">
+					<p>-</p>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<div class="location">
+					<p>-</p>
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>
-<a href="/findfriends">All Friends</a>
+
+<a href="/findfriends" class="btn btn-primary">All Friends</a>
 <script src="../../public/js/friends.js"></script>

@@ -1,13 +1,12 @@
+.row > * {
+	padding-left: 0;
+}
 .profile {
-	display: block;
 	font-size: medium;
-	float: left;
 }
 
 .contain {
 	width: 300px;
-	float: right;
-
 	display: block;
 }
 

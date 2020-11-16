@@ -1,46 +1,47 @@
 <% layout('layouts/boilerplate')%>
 
 <link rel="stylesheet" href="../../public/css/style.css" />
-<div class="container">
-	<div class="profile">
-		<% if(currentUser){ %>
-		<div class="name">Name : <%= currentUser.username %></div>
-		<div class="email">Email Id : <%= currentUser.email %></div>
-		<div class="age">Age : <%= currentUser.age %></div>
-		<div class="location">Location : <%= currentUser.location %></div>
+<div class="row">
+	<div class="col-12 col-md-6">
+		<div class="profile">
+			<% if(currentUser){ %>
 
-		<% } %>
+			<h1><div class="name">Name : <%= currentUser.username %></div></h1>
+			<h3><div class="email">Email Id : <%= currentUser.email %></div></h3>
+			<h3><div class="age">Age : <%= currentUser.age %></div></h3>
+			<h2><div class="location"><%= currentUser.location %></div></h2>
+
+			<% } %>
+		</div>
 	</div>
-	<div class="card contain">
-		<div class="card-body">
-			<h4 class="card-title app-title">Weather</h4>
-		</div>
-		<div class="notification"></div>
-		<div class="weather-container">
-			<div class="weather-icon">
-				<img
-					src="../../public/images/icons/unknown.png"
-					alt=""
-					class="card-img-top"
-				/>
+	<div class="col-12 col-md-6">
+		<div class="card contain">
+			<div class="card-body">
+				<h4 class="card-title app-title">Weather</h4>
 			</div>
-			<div class="temperature-value">
-				<p>- °<span>C</span></p>
+			<div class="notification"></div>
+			<div class="weather-container">
+				<div class="weather-icon">
+					<img src="images/icons/unknown.png" alt="" />
+				</div>
+				<div class="temperature-value">
+					<p>- °<span>C</span></p>
+				</div>
 			</div>
-		</div>
 
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item">
-				<div class="temperature-description">
-					<p>-</p>
-				</div>
-			</li>
-			<li class="list-group-item">
-				<div class="location">
-					<p>-</p>
-				</div>
-			</li>
-		</ul>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<div class="temperature-description">
+						<p>-</p>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="location">
+						<p>-</p>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
 </div>
 
