@@ -9,10 +9,21 @@
 			integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
 			crossorigin="anonymous"
 		/>
-		<link rel="stylesheet" href="../../public/css/style.css" />
+        <link rel="stylesheet" href="../../public/css/style.css" />
+        
 	</head>
 	<body>
+
 		<%- include('../partials/navbar')%>
+        <div class="profile">
+
+            <% if(currentUser){ %> 
+            <%= currentUser.username %> 
+            <%= currentUser.email %>     
+            <%= currentUser.age %>
+            <%= currentUser.location %>
+
+            <% } %> 
 
 		<div class="contain">
 			<div class="app-title">
@@ -33,9 +44,10 @@
 					<p>-</p>
 				</div>
 			</div>
-		</div>
-		<%- include('../partials/footer')%>
+        </div>
+        <script src="../../public/js/app.js"></script>
 
-		<script src="../../public/js/app.js"></script>
-	</body>
+        
+        
+    </body>
 </html>

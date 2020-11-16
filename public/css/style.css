@@ -1,6 +1,12 @@
 body {
 	background-color: #293251;
 }
+.profile {
+	display: block;
+	font-size: medium;
+	text-align: center;
+	color: #f4f9ff;
+}
 
 .contain {
 	width: 300px;

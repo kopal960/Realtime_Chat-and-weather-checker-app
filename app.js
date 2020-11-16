@@ -10,8 +10,6 @@ const ExpressError=require('./utils/ExpressError');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
 
-const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
-
 const User=require('./models/user');
 const findfriends=require('./routes/findfriends')
 
@@ -45,24 +43,13 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(Friends.authenticate()));
-// passport.use(new GoogleStrategy({
-//     consumerKey: GOOGLE_CONSUMER_KEY,
-//     consumerSecret: GOOGLE_CONSUMER_SECRET,
-//     callbackURL: "http://www.example.com/auth/google/callback"
-//   },
-//   function(token, tokenSecret, profile, done) {
-//       User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//         return done(err, user);
-//       });
-//   }
-// ));
 
 
 passport.serializeUser(Friends.serializeUser());
 passport.deserializeUser(Friends.deserializeUser()); 
-//=======
+
 passport.use(new LocalStrategy(Friends.authenticate()));
-/* >>>>>>> 41618845b6b5c5fc7b9f7db8d6b2262d0120e376 */
+
 
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
