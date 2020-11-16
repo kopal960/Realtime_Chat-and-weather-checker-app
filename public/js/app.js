@@ -15,11 +15,12 @@ weather.temperature = {
 // APP CONSTS AND VARS
 const KELVIN = 273;
 // API KEY
-const key = "82005d27a116c2880c8f0fcb866998a0";
+const key = "4d7fe63988bfe069ab4b57f876a945c7";
 
 // CHECK IF BROWSER SUPPORTS GEOLOCATION
 if('geolocation' in navigator){
     navigator.geolocation.getCurrentPosition(setPosition, showError);
+    
 }else{
     notificationElement.style.display = "block";
     notificationElement.innerHTML = "<p>Browser doesn't Support Geolocation</p>";
@@ -27,8 +28,9 @@ if('geolocation' in navigator){
 
 // SET USER'S POSITION
 function setPosition(position){
-    let latitude = position.coords.longitude;
-    let longitude = position.coords.latitude;
+    let latitude = position.coords.latitude;
+    let longitude = position.coords.longitude;
+    console.log(latitude+" "+longitude);
     getWeather(latitude, longitude);
 }
 
@@ -48,6 +50,7 @@ function getWeather(latitude, longitude){
             return data;
         })
         .then(function(data){
+            console.log(data);
             weather.temperature.value = Math.floor(data.main.temp - KELVIN);
             weather.description = data.weather[0].description;
             weather.iconId = data.weather[0].icon;
@@ -61,7 +64,7 @@ function getWeather(latitude, longitude){
 
 // DISPLAY WEATHER TO UI
 function displayWeather(){
-    iconElement.innerHTML = `<img src="./images/${weather.iconId}.png"/">`;
+    iconElement.innerHTML = `<img src="./images/icons/${weather.iconId}.png"/">`;
     tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
     descElement.innerHTML = weather.description;
     locationElement.innerHTML = `${weather.city}, ${weather.country}`;

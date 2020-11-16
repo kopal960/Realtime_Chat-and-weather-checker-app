@@ -10,14 +10,18 @@ router.get('/register',(req,res)=>{
     res.render('users/register');
 });
 
-router.post('/register',catchAsync(async(req,res)=>{
+router.post('/register',catchAsync(async(req,res,next)=>{
     try{
         const {email,username,password ,age , location}=req.body;
         const user =new User({email,username ,age ,location});
         const registeredUser= await User.register(user,password);
-        console.log(registeredUser);
-        req.flash('success','Welcome to XYZ');
-        res.redirect('/');
+        
+        req.login(registeredUser, err=>{
+            if(err) return next(err);
+            req.flash('success','Welcome to XYZ');
+            res.redirect('/chat/0');
+            
+        });     
 
     }catch(e){
         console.log(e.message);
@@ -31,7 +35,8 @@ router.get('/login',(req,res)=>{
 
 });
 router.post('/login',passport.authenticate('local',{failureFlash:true, failureRedirect:'/login'}),(req,res)=>{
-        res.redirect('/chat/0')
+
+    res.redirect('/chat/0')
 });
 const isLoggedIn=(req,res)=>{
     console.log(req.user);
