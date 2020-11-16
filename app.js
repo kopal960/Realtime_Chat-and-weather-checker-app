@@ -86,93 +86,12 @@ http.listen(PORT, () => {
   });  
 const io = require("socket.io")(http); 
 
-app.get('/',(req,res)=>{
-    res.render('landing');
-});
-
-
-app.get('/findfriends',async(req,res)=>{
-    const friends=await Friends.find({});
-    res.render('findfriends/index',{friends});
-});
-app.get('/findfriends/new',(req,res)=>{
-    res.render('findfriends/new')
-})
-app.post('/findFriends',async(req,res)=>{
-    const friend=new Friends(req.body.friends);
-    await friend.save();
-    res.redirect(`/findfriends/${friend._id}`);
-})
-
-app.get('/findfriends/:id',async(req,res)=>{
-    const friend=await Friends.findById(req.params.id);
-    res.render('findfriends/show',{friend});
-});
-
-
-
-app.get('/chat/:id/:chat_id', (req, res) => {
-    data = req.params;
-        Friends.findOneAndUpdate( {"_id" : data.id},   {new :true} ,function(err , result){
-        if(err)
-        {res.status(500).send("error in fnding u")}
-        else if(result==null)
-        {res.status(403).send("error")}
-        else
-        {
-            Friends.find({} , '_id name online' , function(err, users){
-                if(err) 
-                    res.status(500).send(err);
-                else
-                {
-                    var chatname;
-                    if(data.chat_id==0)
-                    {
-                        chatname = "Community";
-                        var chat_id =0
-                    }    
-                    else
-                    {
-                        Friends.findById(data.chat_id, function(err , friend){
-                            if(err) {
-                                res.status(404).send("not");
-                            } 
-                            else  chatname = friend.name;
-                        });
-                        var chat_id = (data.id > data.chat_id? data.chat_id+data.id: data.id+data.chat_id);
-                    }    
-                    Messages.find( {chat_id } ).lean().exec(
-                        function (err ,msgs) {
-                            if(err)
-                                { console.log(err , "from here"); res.status(403).send(err);}
-                            else
-                            {
-                                async function addinfo (){ 
-                                    msgs = await Promise.all( msgs.map(async (msg) =>  
-                                    {
-                                      await Friends.findById(msg.sender).then(friend =>{ msg["sendername"] =friend.name ; })
-                                     .catch(err => console.log(err))
-                                      return msg
-                                    })
-                                )}
-                                addinfo().then(()=>{
-                                    res.render('chats.ejs', {users , receiver: result , msgs ,chatname , chat_id:data.chat_id} );
-                                })
-                            }
-                        }
-                    ) 
-                }     
-            })
-        }
-    })
-})
-
+app.use('/findfriends' , findfriends);
 app.use('/',userRoutes);
 app.use('/chat' , chatRoute)
 app.get('/',(req,res)=>{
     res.render('landing');
 });
-
 
 io.on('connection', function(socket){
     socket.on("new" , (user)=>{
