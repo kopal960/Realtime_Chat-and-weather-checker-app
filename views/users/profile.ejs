@@ -16,13 +16,13 @@
 
 		<%- include('../partials/navbar')%>
         <div class="profile">
-
-            <% if(currentUser){ %> 
-            <%= currentUser.username %> 
-            <%= currentUser.email %>     
-            <%= currentUser.age %>
-            <%= currentUser.location %>
-
+			<% if(currentUser){ %> 
+			<div >
+				<h1 ><%= currentUser.username %></h1> 
+				<p><%= currentUser.email %></p>     
+				<p>Age :<%= currentUser.age %></p>
+				<p><%= currentUser.location %></p>
+			</div>
             <% } %> 
 
 		<div class="contain">
