@@ -1,34 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Friends</title>
-		<link
-			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-			integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
-			crossorigin="anonymous"
-		/>
-	</head>
-	<body>
-		<%- include('../partials/navbar')%>
-        <h1>All Friends</h1>
-		<div class="list-group">
-			<% for (let friend of friends){ %>
-			<a href="/findfriends/<%= friend._id %>" class="list-group-item list-group-item-action"><%= friend.username %></a>
-			<% } %>
-			</div>
-			<%- include('../partials/footer')%>		
-		<script
-			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-			crossorigin="anonymous"
-		></script>
-		<script
-			src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
-			integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
-			crossorigin="anonymous"
-		></script>
-	</body>
-</html>
+<% layout('layouts/boilerplate')%>
+
+<h1>All Friends</h1>
+
+<% for (let friend of friends){ %>
+<div class="card mt-2" style="width: 18rem">
+	<div class="card-body">
+		<h5 class="card-title"><%= friend.username %></h5>
+		<h6 class="card-subtitle mb-2 text-muted"><%= friend.age %></h6>
+		<!-- <p class="card-text">
+						Some quick example text to build on the card title and make up the
+						bulk of the card's content.
+					</p> -->
+		<a href="/findfriends/<%= friend._id %>" class="card-link btn btn-primary"
+			>Chat
+		</a>
+		<!-- <a href="#" class="card-link">Open profile</a> -->
+		<!-- <a href="#" class="card-link"></a> -->
+	</div>
+</div>
+
+<% } %>
+
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"
+></script>

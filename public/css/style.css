@@ -1,11 +1,7 @@
-body {
-	background-color: #293251;
-}
 .profile {
 	display: block;
 	font-size: medium;
 	text-align: center;
-	color: #f4f9ff;
 }
 
 .contain {
@@ -15,6 +11,7 @@ body {
 	display: block;
 	margin: 0 auto;
 
+	border: 1px solid black;
 	border-radius: 10px;
 	padding-bottom: 50px;
 }

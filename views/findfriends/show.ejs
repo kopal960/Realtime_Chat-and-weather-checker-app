@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Show</title>
-	</head>
-	<body>
-		<h1><%= friend.name %></h1>
-		<h3><%= friend.age %></h3>
-		<h2><%= friend.location %></h2>
-		<footer>
-			<a href="/findfriends">All Friends</a>
-		</footer>
-	</body>
-</html>
+<% layout('layouts/boilerplate')%>
+
+<h1><%= friend.name %></h1>
+<h3><%= friend.age %></h3>
+<h2><%= friend.location %></h2>
+<a href="/findfriends">All Friends</a>
