@@ -53,10 +53,7 @@ passport.use(new LocalStrategy(Friends.authenticate()));
 
 app.engine('ejs',ejsMate);
 app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'views'));
-
-app.use('*/css' ,express.static('public/css'));
-app.use('*/js' ,express.static('public/js')) 
+app.set('views',path.join(__dirname,'views')); 
 
 app.use(express.urlencoded({extended:true}));
 //app.use(methodOverride('_method'));
@@ -102,6 +99,8 @@ io.on('connection', function(socket){
             });
         }
     )
+
+    socket.on("join-room",data => {console.log(data);})
     socket.on("disconnect" , () => {
     Friends.findOneAndUpdate( { online : socket.id} , {online : ''} , {new :true } ,function(err , result){
         if(!err && result!=null)   io.emit("user-disconnected" , result._id);
@@ -132,6 +131,7 @@ io.on('connection', function(socket){
             message.save().then(console.log("saved")).catch(err => {console.log(err);}) 
        })
     } );
+
     socket.on("typing" , data => {
         if(data.chat_id == 0)
             socket.broadcast.emit("typing" , {sender: data.sender , chat_id :0 });
