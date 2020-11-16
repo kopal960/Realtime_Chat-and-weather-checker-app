@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="../../public/css/style.css" />
 <div class="container">
-	<div class="profile mt-5">
+	<div class="profile">
 		<% if(currentUser){ %>
 		<div class="name">Name : <%= currentUser.username %></div>
 		<div class="email">Email Id : <%= currentUser.email %></div>
@@ -28,7 +28,7 @@
 				<p>- °<span>C</span></p>
 			</div>
 		</div>
-	
+
 		<ul class="list-group list-group-flush">
 			<li class="list-group-item">
 				<div class="temperature-description">

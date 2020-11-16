@@ -1,6 +1,40 @@
 <% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="../../public/css/style.css" />
 
-<h1><%= friend.name %></h1>
+<h1><%= friend.username %></h1>
 <h3><%= friend.age %></h3>
-<h2><%= friend.location %></h2>
+<h3><%= friend.email %></h3>
+<h2 id="locationReg"><%= friend.location %></h2>
+<div class="card contain">
+	<div class="card-body">
+		<h4 class="card-title app-title">Weather</h4>
+	</div>
+	<div class="notification"></div>
+	<div class="weather-container">
+		<div class="weather-icon">
+			<img
+				src="../../public/images/icons/unknown.png"
+				alt=""
+				class="card-img-top"
+			/>
+		</div>
+		<div class="temperature-value">
+			<p>- °<span>C</span></p>
+		</div>
+	</div>
+
+	<ul class="list-group list-group-flush">
+		<li class="list-group-item">
+			<div class="temperature-description">
+				<p>-</p>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="location">
+				<p>-</p>
+			</div>
+		</li>
+	</ul>
+</div>
 <a href="/findfriends">All Friends</a>
+<script src="../../public/js/friends.js"></script>
