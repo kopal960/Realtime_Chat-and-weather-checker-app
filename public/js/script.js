@@ -72,7 +72,6 @@ socket.on("new-user" , (newuser)=> {
         div.innerHTML = `<div id= "${newuser.id}" class="people" >
                             <p><small>online</small></p>
                          ${newuser.username.trim()} </div>`;
-         
     }
 }) 
 

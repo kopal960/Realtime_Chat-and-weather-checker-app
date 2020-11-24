@@ -10,17 +10,12 @@ const ExpressError=require('./utils/ExpressError');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
 
-const User=require('./models/user');
 const findfriends=require('./routes/findfriends')
 
 const chatRoute = require("./routes/chats")
 const cookieSession = require('cookie-session');
 const userRoutes = require('./routes/users');
 const Messages = require('./models/messages');
-const morgan=require('morgan');
-const { query } = require("express");
-const { Cookie } = require("express-session");
-
 
 mongoose.connect('mongodb://localhost:27017/online-chat', {
     useNewUrlParser: true,
@@ -93,14 +88,11 @@ app.get('/',(req,res)=>{
 io.on('connection', function(socket){
     socket.on("new" , (user)=>{
             Friends.findByIdAndUpdate(user._id , {online : socket.id} ,{new :true} ,(err,result) => {
-                console.log("online" ,result.online ,result._id ,result.username )
                 if(!err) socket.broadcast.emit("new-user" ,  {id:result._id,name:result.username} )
-                else console.log("possible not");
+                else ExpressError(403 , "Access Forbidden");
             });
         }
     )
-
-    socket.on("join-room",data => {console.log(data);})
     socket.on("disconnect" , () => {
     Friends.findOneAndUpdate( { online : socket.id} , {online : ''} , {new :true } ,function(err , result){
         if(!err && result!=null)   io.emit("user-disconnected" , result._id);
@@ -108,27 +100,22 @@ io.on('connection', function(socket){
     });
 
     socket.on("chat-message", (msg) => {
-        console.log("msgsender", typeof(msg.sender) ,msg.sender._id , msg.sender.online);
         Friends.findById( msg.sender._id , function (err ,friend) {
             const message = new Messages({sender:friend , chat_id : 0 , msg:msg.msg});
-            console.log(friend);
             message.save().then(io.emit('chat-message', {'msg' : msg.msg, 'sender' :friend }))
-            .catch(err => console.log( err));
         })
     } );
 
     socket.on("private-message" , (chat_id_ref , msg ,sender) => {
         Friends.findById(chat_id_ref ,(err , friend)=>{
                 io.to(socket.id).emit("private-message" , sender , msg , chat_id_ref)
-                if(friend.online!= '')
+                if(friend.online!= '' && !err)
                 {
-                    console.log("friend" , friend.online ,typeof(friend.online));
-                    console.log("sent");
                     io.to(friend.online).emit("private-message" , sender , msg , sender._id);
                 }   
             chat_id = (chat_id_ref > sender._id? sender._id+chat_id_ref: chat_id_ref+sender._id);
             const message = new Messages({ sender , chat_id , msg });
-            message.save().then(console.log("saved")).catch(err => {console.log(err);}) 
+            message.save().then().catch(err => {console.log(err);}) 
        })
     } );
 
@@ -138,10 +125,8 @@ io.on('connection', function(socket){
         else
         {
             Friends.findById(data.chat_id , function (err , friend){
-                if(err) console.log(error);
-                else if(friend.online!='')
+                if(friend.online!='' && !err)
                 {
-                    console.log("sent");
                     io.to(friend.online).emit("typing" , {sender  : data.sender , chat_id:data.sender._id})
                 }
             })
