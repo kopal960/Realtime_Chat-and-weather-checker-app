@@ -17,7 +17,7 @@ const cookieSession = require('cookie-session');
 const userRoutes = require('./routes/users');
 const Messages = require('./models/messages');
 
-const MONGO_URI = 'mongodb+srv://Kopal:he110hello@cluster0.lztyc.mongodb.net/onlinechat?retryWrites=true&w=majority'
+const MONGO_URI = process.env.MONGO_URI 
 mongoose.connect( MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex:true,
