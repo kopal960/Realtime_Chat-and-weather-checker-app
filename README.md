@@ -24,7 +24,7 @@ A chat application has been created with the additional functionality of **displ
 - Users can chat with all the users of the application and also chat individually with any user they want.
 - The chat application has a feature to show the users online and the user who is typing currently.
 
-## Folder Structure:
+## Folder Structure
 - App.js : main file and entry point of the application
 - Routes : 
   - Chats : it includes route to render the view for chats
