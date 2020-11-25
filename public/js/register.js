@@ -5,9 +5,8 @@ weather.temperature = {
     unit : "celsius"
 }
 
-const KELVIN = 273;
 
-const key = process.env.API_KEY;
+const key = API_KEY;
 
 
 if('geolocation' in navigator){
@@ -18,7 +17,6 @@ if('geolocation' in navigator){
 function setPosition(position){
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    console.log(latitude+" "+longitude);
     getWeather(latitude, longitude);
 }
 

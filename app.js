@@ -5,7 +5,6 @@ const ejsMate=require('ejs-mate');
 const session=require('express-session');
 const flash=require('connect-flash');
 const Friends=require('./models/user');
-const catchAsync=require('./utils/catchAsync');
 const ExpressError=require('./utils/ExpressError');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
@@ -17,7 +16,7 @@ const cookieSession = require('cookie-session');
 const userRoutes = require('./routes/users');
 const Messages = require('./models/messages');
 
-const MONGO_URI = process.env.MONGO_URI 
+const {MONGO_URI} = require("./config_keys") 
 mongoose.connect( MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex:true,
@@ -79,7 +78,7 @@ http.listen(PORT, () => {
   });  
 const io = require("socket.io")(http); 
 
-app.use('/findfriends' , findfriends);
+app.use('/findfriends' , findfriends );
 app.use('/',userRoutes);
 app.use('/chat' , chatRoute)
 app.get('/',(req,res)=>{

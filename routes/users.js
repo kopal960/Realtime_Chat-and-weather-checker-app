@@ -2,12 +2,13 @@ const express=require('express');
 const router=express.Router();
 const passport=require('passport');
 const catchAsync=require('../utils/catchAsync');
+const {API_KEY} = require("../config_keys");
 
 const User=require('../models/user');
 
 
 router.get('/register',(req,res)=>{
-    res.render('users/register');
+    res.render('users/register' ,{API_KEY});
 });
 
 router.post('/register',catchAsync(async(req,res,next)=>{
@@ -44,14 +45,15 @@ const isLoggedIn=(req,res)=>{
         console.log('Welcome');
     }
 }
-router.get('/logout', (req,res)=>{
+router.get('/logout', async (req,res)=>{
     req.flash('success','GoodBye!');
+    await User.findByIdAndUpdate({_id:req.user._id} , {online:''})
     req.logOut();
     res.redirect('/');
 });
 
 router.get('/profile',(req,res)=>{
-    res.render('users/profile');
+    res.render('users/profile' , {'API_KEY' :API_KEY});
 });
 
 module.exports=router;

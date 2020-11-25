@@ -1,4 +1,4 @@
-const socket = io("http://localhost:3000" );
+const socket = io();
 var message_box = document.querySelector(".messages");
 var message = $(".message");
 var send_btn = $(".send");
