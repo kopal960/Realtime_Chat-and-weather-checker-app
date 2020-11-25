@@ -9,7 +9,7 @@ Javascript framework can trace GPS elements to utmost accuracy and also detect w
 A chat application has been created with the additional functionality of **displaying weather to the users according to the location.** It aims at providing users with the functionality of viewing profile of other users and **chatting with them and also chat with the whole community of the app.**
 
 ## Dependencies
-The web application uses node.js and express framework. It  also uses socket.io as required in the project brief. Additional libraries used are:
+***The web application uses node.js and express framework. It  also uses socket.io as required in the project brief. Additional libraries used are:***
 - Passport.js ,passport-local,passport Local mongoose ,cookie-session and bcrypt: for authentication
 - MongoDB and mongoose to register users and save messages.
 - Ejs for templating
@@ -23,6 +23,44 @@ The web application uses node.js and express framework. It  also uses socket.io 
 - This feature uses an API to fetch the weather information of the location required.
 - Users can chat with all the users of the application and also chat individually with any user they want.
 - The chat application has a feature to show the users online and the user who is typing currently.
+
+## Folder Structure:
+- App.js : main file and entry point of the application
+- Routes : 
+  - Chats : it includes route to render the view for chats
+  - Findfriends : It includes routes to view all other users, profile of other users.
+  - Users : It includes routes to render login and registration forms.
+- Views:
+  - Findfriends 
+    - Show.ejs: renders the profile of requested user
+    - Index.ejs : renders the list of users
+  - Layouts/boilerplate.js: it contains boilerplate for the views.
+  - Partials
+    - Navbar.ejs
+    - Flash.ejs
+    - Footer.ejs
+  - Users
+    - Login.ejs
+    - Register.ejs
+    - Profile.ejs
+  - Chats.ejs : this is for rendering the chat view so that users can select users and chat with them.
+  - Landing.ejs : landing page of the application
+- Public (static files)
+  - js 
+    - Script.js : client side javascript for chats
+    - App.js : client side javascript for profile.ejs
+    - Register.js : to register the location of a user 
+    - Friends.js : client side javascript for displaying profile of other users.
+  - css
+    - Index.css : css for chats.ejs
+    - Style.css : css for profile.ejs
+  - Images (images for weather display and includes the app logo)
+  - Javascripts
+    - validateForms : to validate login and register forms.
+- Seeds/index.ejs : to reset the database.
+- Middleware.ejs: checks whether user is authenticated 
+- Package.json : it contains all the dependencies of the project
+- Package-lock.json: It is made automatically when the “npm install” command is run.
 
 
 
