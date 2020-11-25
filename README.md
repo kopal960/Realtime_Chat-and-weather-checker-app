@@ -3,7 +3,9 @@
 ## Introduction
 
 ### Weather checker
-Javascript framework can trace GPS elements to utmost accuracy and also detect weather conditions. *For heightened accuracy and real time weather mapping, Javascript can be a good choice for application developers.* Pairing postal codes to detect the weather as well as provide forecasts are features that developers can look towards building using the Javascript source nodes. And Online Chat with node.js and socket.io
+Javascript framework can trace GPS elements to utmost accuracy and also detect weather conditions. *For heightened accuracy and real time weather mapping, Javascript can be a good choice for application developers.* Pairing postal codes to detect the weather as well as provide forecasts are features that developers can look towards building using the Javascript source nodes. 
+### Online Chat with node.js and socket.io
+Socket.io is used for realtime communication. It assigns a *socket id* to every client connected and *listens to events* emitted by them and acccordingly *emits events* to the clients connected. Here ,it is used for real time community chat and private chat between two users along with the basic events of showing online users and typing event in a chat application.
 
 ## AIM 
 A chat application has been created with the additional functionality of **displaying weather to the users according to the location.** It aims at providing users with the functionality of viewing profile of other users and **chatting with them and also chat with the whole community of the app.**
