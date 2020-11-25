@@ -1,8 +1,9 @@
 const mongoose=require('mongoose');
 const Friends=require('../models/user');
 const Messages = require('../models/messages');
+const {MONGO_URI} = require('../config_keys');
 
-mongoose.connect('mongodb://localhost:27017/online-chat', {
+mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex:true,
     useUnifiedTopology: true
