@@ -64,5 +64,24 @@ A chat application has been created with the additional functionality of **displ
 
 
 
+## Screenshots
+
+- Landing 
+![Screenshot 2020-11-25 at 2 38 46 PM](https://user-images.githubusercontent.com/53987760/100206135-f5de0700-2f2b-11eb-9005-a42cba01042c.png)
+
+- Login View
+![Screenshot 2020-11-25 at 2 41 47 PM](https://user-images.githubusercontent.com/53987760/100206474-608f4280-2f2c-11eb-83a7-2631df59eb75.png)
+
+- Register View 
+![Screenshot 2020-11-25 at 2 49 18 PM](https://user-images.githubusercontent.com/53987760/100207276-6b96a280-2f2d-11eb-88d1-938cd972b63d.png)
+
+- Home
+![Screenshot 2020-11-25 at 4 06 27 PM](https://user-images.githubusercontent.com/53987760/100216612-7c98e100-2f38-11eb-8f4b-2c9795b2989b.png)
+
+- Profile
+![Screenshot 2020-11-25 at 2 55 17 PM](https://user-images.githubusercontent.com/53987760/100208054-49e9eb00-2f2e-11eb-874c-19400b642b24.png)
+
+- Chat View
+![Screenshot 2020-11-16 at 11 19 45 PM](https://user-images.githubusercontent.com/53987760/100216851-cb467b00-2f38-11eb-94a3-9c5de3733b7b.png)
 
 
