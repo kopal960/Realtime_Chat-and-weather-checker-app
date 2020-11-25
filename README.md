@@ -28,6 +28,9 @@ A chat application has been created with the additional functionality of **displ
 
 ## Folder Structure
 - App.js : main file and entry point of the application
+- Models :
+  - User.js : it includes model of current user
+  - Messages.js : it includes model of messages sent by the sender  
 - Routes : 
   - Chats : it includes route to render the view for chats
   - Findfriends : It includes routes to view all other users, profile of other users.
