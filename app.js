@@ -17,7 +17,8 @@ const cookieSession = require('cookie-session');
 const userRoutes = require('./routes/users');
 const Messages = require('./models/messages');
 
-mongoose.connect('mongodb://localhost:27017/online-chat', {
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/online-chat'
+mongoose.connect( MONGO_URI, {
     useNewUrlParser: true,
     useCreateIndex:true,
     useUnifiedTopology: true,
