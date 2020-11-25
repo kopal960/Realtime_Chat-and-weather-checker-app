@@ -96,13 +96,16 @@ socket.on("typing" , data=>{
     }    
 })
 send_btn.click(function(event){
-    if(chat_id == 0)
-        socket.emit("chat-message" , {msg :message.val() , sender : receiver} );
-    else
+    if(msg.val()!='')
     {
-        socket.emit("private-message" , chat_id ,message.val() , receiver)
-    }    
-    message.val("");
+        if(chat_id == 0)
+            socket.emit("chat-message" , {msg :message.val() , sender : receiver} );
+        else
+        {
+            socket.emit("private-message" , chat_id ,message.val() , receiver)
+        }    
+        message.val("");
+    }
 } )
 
 searchuser.addEventListener("change" ,function(event){
