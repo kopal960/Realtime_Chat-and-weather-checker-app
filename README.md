@@ -88,5 +88,7 @@ A chat application has been created with the additional functionality of **displ
 
 - Chat View
 ![Screenshot 2020-11-16 at 11 19 45 PM](https://user-images.githubusercontent.com/53987760/100216851-cb467b00-2f38-11eb-94a3-9c5de3733b7b.png)
+## Live Project
+   Deployed using heroku : https://sky-chat2.herokuapp.com/
 
 
