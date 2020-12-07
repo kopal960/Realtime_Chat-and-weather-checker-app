@@ -96,7 +96,7 @@ socket.on("typing" , data=>{
     }    
 })
 send_btn.click(function(event){
-    if(msg.val()!='')
+    if(message.val()!='')
     {
         if(chat_id == 0)
             socket.emit("chat-message" , {msg :message.val() , sender : receiver} );
